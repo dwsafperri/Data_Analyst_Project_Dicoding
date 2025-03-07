@@ -36,6 +36,7 @@ pip install -r requirements.txt
 Jalankan perintah berikut di terminal atau command prompt:
 
 ```bash
+cd dashboard
 streamlit run dashboard.py
 ```
 
