@@ -43,6 +43,34 @@ hourly_summary = hour_df.groupby("dteday").agg({
 # menggabungkan dataset day.csv dengan ringkasan data dari hour.csv berdasarkan dteday
 merged_df = pd.merge(day_df, hourly_summary, on="dteday", suffixes=("_day", "_hour"))
 
+# mapping untuk season dan weathersit
+season_mapping = {1: "Spring", 2: "Summer", 3: "Fall", 4: "Winter"}
+weather_mapping = {1: "Cerah", 2: "Berawan/Mendung", 3: "Hujan Ringan/Salju Ringan", 4: "Hujan/Salju Lebat"}
+
+day_df["season"] = day_df["season"].map(season_mapping)
+day_df["weathersit"] = day_df["weathersit"].map(weather_mapping)
+
+# Info Profil
+st.sidebar.markdown("### 👤 Profil Pembuat")
+st.sidebar.markdown("**Dewi Safira Permata Sari**")
+st.sidebar.markdown("📸 Instagram: [dwsafperri](https://www.instagram.com/dwsafperri)")
+st.sidebar.markdown("💼 LinkedIn: [Dewi Safira Permata Sari](https://www.linkedin.com/in/dwsafperri)")
+st.sidebar.markdown("💻 Github: [dwsafperri](https://github.com/dwsafperri")
+
+# Sidebar untuk filter
+st.sidebar.header("Filter Data")
+selected_date = st.sidebar.date_input("Pilih Tanggal", day_df["dteday"].min())
+selected_season = st.sidebar.selectbox("Pilih Musim", ["Semua"] + sorted(day_df["season"].dropna().unique().tolist()))
+selected_weather = st.sidebar.selectbox("Pilih Cuaca", ["Semua"] + sorted(day_df["weathersit"].dropna().unique().tolist()))
+
+# Terapkan filter
+filtered_df = day_df[day_df["dteday"] == pd.to_datetime(selected_date)]
+if selected_season != "Semua":
+    filtered_df = filtered_df[filtered_df["season"] == selected_season]
+if selected_weather != "Semua":
+    filtered_df = filtered_df[filtered_df["weathersit"] == selected_weather]
+
+
 def main():
     st.title("🚲 Dashboard Peminjaman Sepeda")
     st.markdown("### Analisis Data Peminjaman Sepeda 🚲")

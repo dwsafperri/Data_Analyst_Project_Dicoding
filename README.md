@@ -36,7 +36,7 @@ pip install -r requirements.txt
 Jalankan perintah berikut di terminal atau command prompt:
 
 ```bash
-streamlit run dashboard.py
+streamlit run dashboard/dashboard.py
 ```
 
 ## 📂 Struktur Folder
